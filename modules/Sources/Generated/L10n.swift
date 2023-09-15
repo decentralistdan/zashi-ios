@@ -573,9 +573,9 @@ public enum L10n {
       public static func error(_ p1: Any) -> String {
         return L10n.tr("Localizable", "sync.message.error", String(describing: p1), fallback: "Error: %@")
       }
-      /// %@%% Synced
+      /// %@ Synced
       public static func sync(_ p1: Any) -> String {
-        return L10n.tr("Localizable", "sync.message.sync", String(describing: p1), fallback: "%@%% Synced")
+        return L10n.tr("Localizable", "sync.message.sync", String(describing: p1), fallback: "%@ Synced")
       }
       /// Unprepared
       public static let unprepared = L10n.tr("Localizable", "sync.message.unprepared", fallback: "Unprepared")

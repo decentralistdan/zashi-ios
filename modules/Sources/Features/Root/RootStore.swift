@@ -326,7 +326,8 @@ extension RootReducer.State {
             ),
             phraseValidationState: .placeholder,
             phraseDisplayState: RecoveryPhraseDisplayReducer.State(
-                phrase: .placeholder
+                phrase: .placeholder,
+                birthday: nil
             ),
             sandboxState: .placeholder,
             walletConfig: .default,

@@ -31,7 +31,11 @@ extension SDKSynchronizerClient: TestDependencyKey {
         getSaplingAddress: XCTUnimplemented("\(Self.self).getSaplingAddress", placeholder: nil),
         sendTransaction: XCTUnimplemented("\(Self.self).sendTransaction", placeholder: .placeholder()),
         shieldFunds: XCTUnimplemented("\(Self.self).shieldFunds", placeholder: .placeholder()),
-        wipe: XCTUnimplemented("\(Self.self).wipe")
+        wipe: XCTUnimplemented("\(Self.self).wipe"),
+        printPrivateWalletDebugOutput: XCTUnimplemented("\(Self.self).printPrivateWalletDebugOutput"),
+        enableMetrics: XCTUnimplemented("\(Self.self).enableMetrics"),
+        disableMetrics: XCTUnimplemented("\(Self.self).disableMetrics"),
+        summarizedCumulativeReports: XCTUnimplemented("\(Self.self).summarizedCumulativeReports")
     )
 }
 
@@ -54,7 +58,11 @@ extension SDKSynchronizerClient {
         getSaplingAddress: { _ in return nil },
         sendTransaction: { _, _, _, _ in return .placeholder() },
         shieldFunds: { _, _, _ in return .placeholder() },
-        wipe: { Empty<Void, Error>().eraseToAnyPublisher() }
+        wipe: { Empty<Void, Error>().eraseToAnyPublisher() },
+        printPrivateWalletDebugOutput: { },
+        enableMetrics: { },
+        disableMetrics: { },
+        summarizedCumulativeReports: { nil }
     )
 
     public static let mock = Self.mocked()
@@ -175,7 +183,11 @@ extension SDKSynchronizerClient {
                 zecAmount: Zatoshi(10)
             )
         },
-        wipe: @escaping () -> AnyPublisher<Void, Error>? = { Fail(error: "Error").eraseToAnyPublisher() }
+        wipe: @escaping () -> AnyPublisher<Void, Error>? = { Fail(error: "Error").eraseToAnyPublisher() },
+        printPrivateWalletDebugOutput: @escaping () -> Void = { },
+        enableMetrics: @escaping () -> Void = { },
+        disableMetrics: @escaping () -> Void = { },
+        summarizedCumulativeReports: @escaping () -> SDKMetrics.CumulativeSummary? = { nil }
     ) -> SDKSynchronizerClient {
         SDKSynchronizerClient(
             stateStream: stateStream,
@@ -195,7 +207,11 @@ extension SDKSynchronizerClient {
             getSaplingAddress: getSaplingAddress,
             sendTransaction: sendTransaction,
             shieldFunds: shieldFunds,
-            wipe: wipe
+            wipe: wipe,
+            printPrivateWalletDebugOutput: printPrivateWalletDebugOutput,
+            enableMetrics: enableMetrics,
+            disableMetrics: disableMetrics,
+            summarizedCumulativeReports: summarizedCumulativeReports
         )
     }
 }

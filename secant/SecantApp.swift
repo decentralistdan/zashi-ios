@@ -63,6 +63,7 @@ struct SecantApp: App {
             .font(
                 .custom(FontFamily.Inter.regular.name, size: 17)
             )
+            .preferredColorScheme(.light)
         }
     }
 }

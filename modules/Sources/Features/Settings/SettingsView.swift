@@ -27,7 +27,9 @@ public struct SettingsView: View {
                 .frame(height: 50)
                 
                 Button(
-                    action: { viewStore.send(.exportLogs(.start)) },
+                    action: {
+                        viewStore.send(.exportLogs(.start))
+                    },
                     label: {
                         if viewStore.exportLogsState.exportLogsDisabled {
                             HStack {

@@ -15,6 +15,7 @@ import SDKSynchronizer
 import UserPreferencesStorage
 import ExportLogs
 import CrashReporter
+import Utils
 
 public typealias SettingsStore = Store<SettingsReducer.State, SettingsReducer.Action>
 public typealias SettingsViewStore = ViewStore<SettingsReducer.State, SettingsReducer.Action>
@@ -99,6 +100,7 @@ public struct SettingsReducer: ReducerProtocol {
                     let phraseWords = mnemonic.asWords(storedWallet.seedPhrase.value())
                     let recoveryPhrase = RecoveryPhrase(words: phraseWords.map { $0.redacted })
                     state.phraseDisplayState.phrase = recoveryPhrase
+                    state.phraseDisplayState.birthday = storedWallet.birthday?.value()
                     return EffectTask(value: .updateDestination(.backupPhrase))
                 } catch {
                     state.alert = AlertState.cantBackupWallet(error.toZcashError())
@@ -117,6 +119,25 @@ public struct SettingsReducer: ReducerProtocol {
                 }
                 
             case .exportLogs:
+                if let cumulativeSummary = sdkSynchronizer.summarizedCumulativeReports() {
+                    let downloadedBlocksReport = cumulativeSummary.downloadedBlocksReport ?? SDKMetrics.ReportSummary.zero
+                    let scannedBlocksReport = cumulativeSummary.scannedBlocksReport ?? SDKMetrics.ReportSummary.zero
+                    let enhancementReport = cumulativeSummary.enhancementReport ?? SDKMetrics.ReportSummary.zero
+                    let fetchUTXOsReport = cumulativeSummary.fetchUTXOsReport ?? SDKMetrics.ReportSummary.zero
+                    let totalSyncReport = cumulativeSummary.totalSyncReport ?? SDKMetrics.ReportSummary.zero
+                    
+                    let downloadedBlockAVGTime = downloadedBlocksReport.avgTime
+                    LoggerProxy.debug(
+                    """
+                    testHundredBlocksSync() SUMMARY min max avg REPORT:
+                    downloadedBlocksTimes: min: \(downloadedBlocksReport.minTime) max: \(downloadedBlocksReport.maxTime) avg: \(downloadedBlockAVGTime)
+                    scannedBlocksTimes: min: \(scannedBlocksReport.minTime) max: \(scannedBlocksReport.maxTime) avg: \(scannedBlocksReport.avgTime)
+                    enhancementTimes: min: \(enhancementReport.minTime) max: \(enhancementReport.maxTime) avg: \(enhancementReport.avgTime)
+                    fetchUTXOsTimes: min: \(fetchUTXOsReport.minTime) max: \(fetchUTXOsReport.maxTime) avg: \(fetchUTXOsReport.avgTime)
+                    totalSyncTimes: min: \(totalSyncReport.minTime) max: \(totalSyncReport.maxTime) avg: \(totalSyncReport.avgTime)
+                    """
+                    )
+                }
                 return .none
 
             case .phraseDisplay:
@@ -232,7 +253,8 @@ extension SettingsReducer.State {
         exportLogsState: .placeholder,
         isCrashReportingOn: true,
         phraseDisplayState: RecoveryPhraseDisplayReducer.State(
-            phrase: .placeholder
+            phrase: .placeholder,
+            birthday: nil
         )
     )
 }

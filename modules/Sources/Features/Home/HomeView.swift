@@ -24,6 +24,18 @@ public struct HomeView: View {
 
                 Spacer()
 
+                Text("\(String(describing: viewStore.contextState))")
+
+                Spacer()
+
+                Button {
+                    viewStore.send(.printPrivateWalletDebugOutput)
+                } label: {
+                    Text("log wallet debug output")
+                }
+                
+                Spacer()
+                
                 sendButton(viewStore)
 
                 receiveButton(viewStore)
@@ -131,7 +143,7 @@ extension HomeView {
             Button {
                 viewStore.send(.updateDestination(.balanceBreakdown))
             } label: {
-                Text(L10n.balance(viewStore.shieldedBalance.data.verified.decimalString(), tokenName))
+                Text(L10n.balance(viewStore.shieldedBalance.data.total.decimalString(), tokenName))
                     .font(
                         .custom(FontFamily.Inter.regular.name, size: 32)
                         .weight(.bold)

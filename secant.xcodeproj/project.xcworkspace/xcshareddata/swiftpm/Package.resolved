@@ -347,8 +347,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zcash/ZcashLightClientKit",
       "state" : {
-        "revision" : "d8b069fd15bb4d9d9e4ca975af035c881c55b8c6",
-        "version" : "2.0.0-rc.4"
+        "branch" : "print-private-wallet-debug-output",
+        "revision" : "3f6b1f37482ea022dee56a532475dd969457bdcb"
       }
     }
   ],

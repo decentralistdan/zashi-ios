@@ -20,7 +20,10 @@ public typealias HomeStore = Store<HomeReducer.State, HomeReducer.Action>
 public typealias HomeViewStore = ViewStore<HomeReducer.State, HomeReducer.Action>
 
 public struct HomeReducer: ReducerProtocol {
-    private enum CancelId { case timer }
+    private enum CancelId {
+        case timer
+        case event
+    }
     let networkType: NetworkType
 
     public struct State: Equatable {
@@ -49,9 +52,10 @@ public struct HomeReducer: ReducerProtocol {
         public var migratingDatabase = true
         // TODO: [#311] - Get the ZEC price from the SDK, https://github.com/zcash/secant-ios-wallet/issues/311
         public var zecPrice = Decimal(140.0)
+        public var contextState: CBPState = .idle
 
         public var totalCurrencyBalance: Zatoshi {
-            Zatoshi.from(decimal: shieldedBalance.data.verified.decimalValue.decimalValue * zecPrice)
+            Zatoshi.from(decimal: shieldedBalance.data.total.decimalValue.decimalValue * zecPrice)
         }
 
         public var isSyncing: Bool {
@@ -120,10 +124,12 @@ public struct HomeReducer: ReducerProtocol {
         case settings(SettingsReducer.Action)
         case showSynchronizerErrorAlert(ZcashError)
         case synchronizerStateChanged(SynchronizerState)
+        case synchronizerEventChanged(SynchronizerEvent)
         case syncFailed(ZcashError)
         case updateDestination(HomeReducer.State.Destination?)
         case updateWalletEvents([WalletEvent])
         case walletEvents(WalletEventsFlowReducer.Action)
+        case printPrivateWalletDebugOutput
     }
     
     @Dependency(\.audioServices) var audioServices
@@ -160,6 +166,15 @@ public struct HomeReducer: ReducerProtocol {
 
         Reduce { state, action in
             switch action {
+            case .printPrivateWalletDebugOutput:
+                return .run { _ in
+                    do {
+                        try await sdkSynchronizer.printPrivateWalletDebugOutput()
+                    } catch {
+                        
+                    }
+                }
+                
             case .onAppear:
                 state.requiredTransactionConfirmations = zcashSDKEnvironment.requiredTransactionConfirmations
                 
@@ -169,9 +184,16 @@ public struct HomeReducer: ReducerProtocol {
                         .map(HomeReducer.Action.synchronizerStateChanged)
                         .eraseToEffect()
                         .cancellable(id: CancelId.timer, cancelInFlight: true)
+                    let eventEffect = sdkSynchronizer.eventStream()
+                        .throttle(for: .seconds(0.2), scheduler: mainQueue, latest: true)
+                        .map(HomeReducer.Action.synchronizerEventChanged)
+                        .eraseToEffect()
+                        .cancellable(id: CancelId.event, cancelInFlight: true)
                     return .merge(
                         EffectTask(value: .updateDestination(nil)),
-                        syncEffect
+                        .run { _ in sdkSynchronizer.enableMetrics() },
+                        syncEffect,
+                        eventEffect
                     )
                 } else {
                     return EffectTask(value: .updateDestination(.notEnoughFreeDiskSpace))
@@ -193,7 +215,13 @@ public struct HomeReducer: ReducerProtocol {
                                 
             case .updateWalletEvents:
                 return .none
-                
+
+            case .synchronizerEventChanged(let latestEvent):
+                if case .contextUpdated(let newState) = latestEvent {
+                    state.contextState = newState
+                }
+                return .none
+
             case .synchronizerStateChanged(let latestState):
                 let snapshot = SyncStatusSnapshot.snapshotFor(state: latestState.syncStatus)
 

@@ -32,11 +32,11 @@ public struct BalanceBreakdownReducer: ReducerProtocol {
         public var transparentBalance: Balance
         
         public var totalSpendableBalance: Zatoshi {
-            shieldedBalance.data.verified + transparentBalance.data.verified
+            shieldedBalance.data.total + transparentBalance.data.total
         }
 
         public var isShieldableBalanceAvailable: Bool {
-            transparentBalance.data.verified.amount >= autoShieldingThreshold.amount
+            transparentBalance.data.total.amount >= autoShieldingThreshold.amount
         }
 
         public var isShieldingButtonDisabled: Bool {

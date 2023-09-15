@@ -9,16 +9,19 @@ import Foundation
 import ComposableArchitecture
 import Models
 import Pasteboard
+import ZcashLightClientKit
 
 public typealias RecoveryPhraseDisplayStore = Store<RecoveryPhraseDisplayReducer.State, RecoveryPhraseDisplayReducer.Action>
 
 public struct RecoveryPhraseDisplayReducer: ReducerProtocol {
     public struct State: Equatable {
         public var phrase: RecoveryPhrase?
+        public var birthday: BlockHeight?
         public var showCopyToBufferAlert = false
         
-        public init(phrase: RecoveryPhrase? = nil, showCopyToBufferAlert: Bool = false) {
+        public init(phrase: RecoveryPhrase? = nil, birthday: BlockHeight?, showCopyToBufferAlert: Bool = false) {
             self.phrase = phrase
+            self.birthday = birthday
             self.showCopyToBufferAlert = showCopyToBufferAlert
         }
     }

@@ -65,6 +65,14 @@ public struct RecoveryPhraseDisplayView: View {
                     
                     Spacer()
                     
+                    if let birthday = viewStore.birthday {
+                        Text("Wallet birthday: \(birthday)")
+                    } else {
+                        Text("Wallet birthday: not set")
+                    }
+                    
+                    Spacer()
+                    
                     VStack {
                         Button(
                             action: { viewStore.send(.finishedPressed) },
@@ -91,7 +99,7 @@ public struct RecoveryPhraseDisplayView: View {
 extension RecoveryPhraseDisplayStore {
     public static var demo: RecoveryPhraseDisplayStore {
         RecoveryPhraseDisplayStore(
-            initialState: .init(phrase: .placeholder),
+            initialState: .init(phrase: .placeholder, birthday: nil),
             reducer: RecoveryPhraseDisplayReducer.demo,
             environment: Void()
         )

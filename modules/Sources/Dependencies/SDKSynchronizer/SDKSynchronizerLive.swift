@@ -102,7 +102,14 @@ extension SDKSynchronizerClient {
                 )
                 return TransactionState(transaction: pendingTransaction)
             },
-            wipe: { synchronizer.wipe() }
+            wipe: { synchronizer.wipe() },
+            printPrivateWalletDebugOutput: { try await synchronizer.printPrivateWalletOutput() },
+            enableMetrics: { synchronizer.metrics.enableMetrics() },
+            disableMetrics: { synchronizer.metrics.disableMetrics() },
+            summarizedCumulativeReports: {
+                synchronizer.metrics.cumulateReportsAndStartNewSet()
+                return synchronizer.metrics.summarizedCumulativeReports()
+            }
         )
     }
 }

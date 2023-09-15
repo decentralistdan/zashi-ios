@@ -30,7 +30,9 @@ public struct SyncStatusSnapshot: Equatable {
             return SyncStatusSnapshot(state, L10n.Sync.Message.error(error.toZcashError().message))
 
         case .syncing(let progress):
-            return SyncStatusSnapshot(state, L10n.Sync.Message.sync(String(format: "%0.1f", progress * 100)))
+            return SyncStatusSnapshot(state, L10n.Sync.Message.sync(
+                String(format: "%0.8f%%\n n/d %d/%d\n", try! progress.progress() * 100, progress.numerator, progress.denominator))
+            )
         }
     }
 }
