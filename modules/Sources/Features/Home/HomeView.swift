@@ -21,12 +21,18 @@ public struct HomeView: View {
         WithViewStore(store) { viewStore in
             VStack {
                 balance(viewStore)
-
                 Spacer()
-
-                sendButton(viewStore)
-
-                receiveButton(viewStore)
+                VStack {
+                    if viewStore.isSendButtonDisabled {
+                        dismissButton(viewStore)
+                    }else {
+                        sendButton(viewStore)
+                    }
+                    
+                    receiveButton(viewStore)
+                }
+                .padding(EdgeInsets(top: 0.0, leading: 50.0, bottom: 0, trailing: 50.0))
+                
                 
                 Button {
                     viewStore.send(.updateDestination(.transactionHistory))
@@ -112,8 +118,19 @@ extension HomeView {
         .padding(.bottom, 30)
         .disable(
             when: viewStore.isSendButtonDisabled,
-            dimmingOpacity: 0.5
+            dimmingOpacity: 0.8
         )
+    
+    }
+    
+    func dismissButton(_ viewStore: HomeViewStore) -> some View {
+        Button(action: {
+            viewStore.send(.updateDestination(.send))
+        }, label: {
+            Text(L10n.Home.sendZec(tokenName))
+        })
+        .disableButtonStyle
+        .padding(.bottom, 30)
     }
     
     func receiveButton(_ viewStore: HomeViewStore) -> some View {
@@ -122,7 +139,8 @@ extension HomeView {
         }, label: {
             Text(L10n.Home.receiveZec(tokenName))
         })
-        .activeButtonStyle
+        .activeWhiteButtonStyle
+        
         .padding(.bottom, 30)
     }
     

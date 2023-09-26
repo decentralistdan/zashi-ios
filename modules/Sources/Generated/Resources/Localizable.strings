@@ -1,6 +1,7 @@
 // MARK: - Welcome Screen
 "welcomeScreen.title" = "Powered by Zcash";
 "welcomeScreen.subtitle" = "Just Loading, one sec";
+"welcomeScreen.description" = "A no frills wallet for sending and receiving Zcash (ZEC)";
 
 // MARK: - Plain Onboarding Flow
 "plainOnboarding.title" = "It's time to setup your Secant, powered by Zcash, no-frills wallet.";
@@ -26,10 +27,11 @@
 
 // MARK: - Secret Recovery Phrase Display
 "recoveryPhraseDisplay.title" = "Your Secret Recovery Phrase";
-"recoveryPhraseDisplay.description" = "The following 24 words represent your funds and the security used to protect them. Back them up now!";
-"recoveryPhraseDisplay.button.wroteItDown" = "I wrote it down!";
+"recoveryPhraseDisplay.description" = "The following 24 words are the keys to your funds and are the only way to recover your funds if you get locked out or get a new device. Protect your ZEC by storing this phrase in a place you trust and never share it with anyone!";
+"recoveryPhraseDisplay.button.wroteItDown" = "I GOT IT!";
 "recoveryPhraseDisplay.button.copyToBuffer" = "Copy To Buffer";
 "recoveryPhraseDisplay.noWords" = "Oops no words";
+"recoveryPhraseDisplay.subtext" = "Wallet birthday height: 1598622";
 
 // MARK: - Recovery Phrase Backup Validation & Success/Failed
 "recoveryPhraseBackupValidation.title" = "Verify Your Backup";
@@ -129,14 +131,19 @@
 "settings.backupWallet" = "Backup Wallet";
 "settings.exporting" = "Exporting...";
 "settings.exportLogs" = "Export & share logs";
-"settings.feedback" = "Send us feedback!";
+"settings.feedback" = "Send us feedback";
 "settings.about" = "About";
+"settings.privacyPolicy" = "Privacy Policy";
+"settings.documentation" = "Documentation";
 "settings.version" = "Version %@ (%@)";
 "settings.title" = "Settings";
 "settings.alert.cantBackupWallet.title" = "Can't backup wallet";
 "settings.alert.cantBackupWallet.message" = "Error: %@ (code: %@)";
 "settings.alert.cantSendEmail.title" = "Can't send email";
 "settings.alert.cantSendEmail.message" = "It looks like that you don't have any email account configured on your device. Therefore it's not possible to send a support email.";
+
+// MARK: - About
+"about.description" = "Send and receive ZEC on Zashi! \nZashi is a minimal-design, self-custody, ZEC-only shielded wallet that keeps your transaction history and wallet balance private. Built by Zcashers, for Zcashers. Developed and maintained by Electric Coin Co., the inventor of Zcash, Zashi features a built-in user-feedback mechanism to enable more features, more quickly.";
 
 // MARK: - Sync message
 "sync.message.uptodate" = "Up-To-Date";

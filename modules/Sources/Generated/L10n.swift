@@ -18,6 +18,11 @@ public enum L10n {
   public static func qrCodeFor(_ p1: Any) -> String {
     return L10n.tr("Localizable", "qrCodeFor", String(describing: p1), fallback: "QR Code for %@")
   }
+  public enum About {
+    /// Send and receive ZEC on Zashi! 
+    /// Zashi is a minimal-design, self-custody, ZEC-only shielded wallet that keeps your transaction history and wallet balance private. Built by Zcashers, for Zcashers. Developed and maintained by Electric Coin Co., the inventor of Zcash, Zashi features a built-in user-feedback mechanism to enable more features, more quickly.
+    public static let description = L10n.tr("Localizable", "about.description", fallback: "Send and receive ZEC on Zashi! \nZashi is a minimal-design, self-custody, ZEC-only shielded wallet that keeps your transaction history and wallet balance private. Built by Zcashers, for Zcashers. Developed and maintained by Electric Coin Co., the inventor of Zcash, Zashi features a built-in user-feedback mechanism to enable more features, more quickly.")
+  }
   public enum AddressDetails {
     /// Sapling Address
     public static let sa = L10n.tr("Localizable", "addressDetails.sa", fallback: "Sapling Address")
@@ -285,17 +290,19 @@ public enum L10n {
     public static let title = L10n.tr("Localizable", "recoveryPhraseBackupValidation.title", fallback: "Verify Your Backup")
   }
   public enum RecoveryPhraseDisplay {
-    /// The following 24 words represent your funds and the security used to protect them. Back them up now!
-    public static let description = L10n.tr("Localizable", "recoveryPhraseDisplay.description", fallback: "The following 24 words represent your funds and the security used to protect them. Back them up now!")
+    /// The following 24 words are the keys to your funds and are the only way to recover your funds if you get locked out or get a new device. Protect your ZEC by storing this phrase in a place you trust and never share it with anyone!
+    public static let description = L10n.tr("Localizable", "recoveryPhraseDisplay.description", fallback: "The following 24 words are the keys to your funds and are the only way to recover your funds if you get locked out or get a new device. Protect your ZEC by storing this phrase in a place you trust and never share it with anyone!")
     /// Oops no words
     public static let noWords = L10n.tr("Localizable", "recoveryPhraseDisplay.noWords", fallback: "Oops no words")
+    /// Wallet birthday height: 1598622
+    public static let subtext = L10n.tr("Localizable", "recoveryPhraseDisplay.subtext", fallback: "Wallet birthday height: 1598622")
     /// Your Secret Recovery Phrase
     public static let title = L10n.tr("Localizable", "recoveryPhraseDisplay.title", fallback: "Your Secret Recovery Phrase")
     public enum Button {
       /// Copy To Buffer
       public static let copyToBuffer = L10n.tr("Localizable", "recoveryPhraseDisplay.button.copyToBuffer", fallback: "Copy To Buffer")
-      /// I wrote it down!
-      public static let wroteItDown = L10n.tr("Localizable", "recoveryPhraseDisplay.button.wroteItDown", fallback: "I wrote it down!")
+      /// I GOT IT!
+      public static let wroteItDown = L10n.tr("Localizable", "recoveryPhraseDisplay.button.wroteItDown", fallback: "I GOT IT!")
     }
   }
   public enum RecoveryPhraseTestPreamble {
@@ -496,12 +503,16 @@ public enum L10n {
     public static let backupWallet = L10n.tr("Localizable", "settings.backupWallet", fallback: "Backup Wallet")
     /// Enable Crash Reporting
     public static let crashReporting = L10n.tr("Localizable", "settings.crashReporting", fallback: "Enable Crash Reporting")
+    /// Documentation
+    public static let documentation = L10n.tr("Localizable", "settings.documentation", fallback: "Documentation")
     /// Exporting...
     public static let exporting = L10n.tr("Localizable", "settings.exporting", fallback: "Exporting...")
     /// Export & share logs
     public static let exportLogs = L10n.tr("Localizable", "settings.exportLogs", fallback: "Export & share logs")
-    /// Send us feedback!
-    public static let feedback = L10n.tr("Localizable", "settings.feedback", fallback: "Send us feedback!")
+    /// Send us feedback
+    public static let feedback = L10n.tr("Localizable", "settings.feedback", fallback: "Send us feedback")
+    /// Privacy Policy
+    public static let privacyPolicy = L10n.tr("Localizable", "settings.privacyPolicy", fallback: "Privacy Policy")
     /// Settings
     public static let title = L10n.tr("Localizable", "settings.title", fallback: "Settings")
     /// Version %@ (%@)
@@ -700,6 +711,8 @@ public enum L10n {
     }
   }
   public enum WelcomeScreen {
+    /// A no frills wallet for sending and receiving Zcash (ZEC)
+    public static let description = L10n.tr("Localizable", "welcomeScreen.description", fallback: "A no frills wallet for sending and receiving Zcash (ZEC)")
     /// Just Loading, one sec
     public static let subtitle = L10n.tr("Localizable", "welcomeScreen.subtitle", fallback: "Just Loading, one sec")
     /// Powered by Zcash
